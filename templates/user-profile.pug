@@ -1,0 +1,39 @@
+extends basic-layout.pug
+
+
+block content
+  h2=curUser.email
+  if curUser.email == user.email
+    a(href="/change-profile") 修改个人信息
+  br
+  small  用户名：#{ curUser.email }
+  br
+  small  注册时间：#{ new Date(curUser.createAt).toLocaleString() }
+
+  hr
+
+  h5 #{gender + '发布的帖子'}
+  each post in posts
+    div.row.mb-3
+      a(href="/post/" + post.id).col.flex-grow-0.flex-shrink-0.rounded
+      div.col
+        big
+          a(href="/post/" + post.id)= post.title
+        br
+        small
+          small @ #{new Date(post.createAt).toLocaleString()}
+
+
+  hr
+
+  h5 #{gender + '评论的帖子'}
+  each c in comments
+    div.row.mb-3
+      a(href="/post/" + c.postId).col.flex-grow-0.flex-shrink-0.rounded
+      div.col
+        small
+          small 评论了帖子
+            a(href="/post/" + c.id)= c.title
+            small @ #{new Date(c.createAt).toLocaleString()}
+        br
+        span #{'：' + c.cDetail}

@@ -1,0 +1,22 @@
+
+extends basic-layout.pug
+
+block content
+  h2 修改个人信息
+  form(action='/change-profile' method='post' enctype="multipart/form-data")
+
+    .mb-3
+      label.form-label(for='password') 输入新密码
+      input#password.form-control(type='password' name='password')
+    .form-check
+      input#male.form-check-input(type='radio' name='gender' value="m")
+      label.form-check-label(for='male')
+        | 男
+    .form-check
+      input#female.form-check-input(type='radio' name='gender' value="f")
+      label.form-check-label(for='female')
+        | 女
+    .mb-3
+      label.form-label(for='avatar') 上传头像
+      input#avatar.form-control(type='file' name='avatar')
+    button.btn.btn-primary(type='submit') 提交修改

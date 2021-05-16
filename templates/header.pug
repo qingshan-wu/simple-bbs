@@ -1,0 +1,23 @@
+//- h1: a(href="/") BBS
+//- a(href="/login") 登录
+//- a(href="/register") 注册
+//- a(href="/logout") 退出
+
+nav.navbar.navbar-expand.navbar-light.bg-light
+  script var curUser = !{JSON.stringify(user)}
+  .container-fluid
+    a.navbar-brand(href='/') BBS
+    .navbar-collapse.flex-row-reverse
+      ul.navbar-nav.float-end
+        li.nav-item
+          a.nav-link(href='/post') 发帖
+        if user
+          li.nav-item
+            a.nav-link(href='/user/' + user.id) Hi, #[span.loginUser=user.email]
+          li.nav-item
+            a.nav-link(href='/logout') 退出
+        else
+          li.nav-item
+            a.nav-link(href='/login') 登陆
+          li.nav-item
+            a.nav-link(href='/register') 注册

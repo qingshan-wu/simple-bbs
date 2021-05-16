@@ -1,0 +1,18 @@
+extends basic-layout.pug
+
+block content
+  if user
+    form(action='/post' method='post')
+      .mb-3
+        label.form-label(for='exampleInputEmail1')
+        input#text.form-control(type='text' name='title' placeholder="标题")
+      .mb-3
+        label.form-label(for='exampleInputPassword1')
+        textarea#detail.form-control(name="detail", cols="30", rows="10" placeholder="输入内容")
+      button.btn.btn-primary(type='submit') 保存
+  else
+    p 先
+      a(href="/login") 登陆
+      | 或
+      a(href="/register") 注册
+      | 才能发帖

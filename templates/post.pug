@@ -1,0 +1,55 @@
+extends basic-layout.pug
+
+block content
+  h2=post.title
+  p=post.detail
+
+  div.comments
+    each comment in comments
+      div.row.mb-3
+        a(href="/user/" + post.id title=comment.email).col.flex-grow-0.flex-shrink-0.rounded
+          img(width="25" height="25" src="/upload/" + comment.avatar)
+        div.col
+          span=comment.detail
+          small.align-items-end
+            small #{new Date(comment.commentTime).toLocaleTimeString()}
+    else
+      p 暂时还没有人评论
+
+
+  hr
+
+
+  if user
+    form#comment-form(action="/comment" method="post")
+      input(type="hidden" name="postId" value=post.id)
+      textarea#detail.form-control(name="detail" placeholder="友善发言" required)
+      button.btn.btn-primary(type='submit') 评论
+  else
+    p 想发表评论试试
+      a(href="/login") 登陆
+      | 或
+      a(href="/register") 注册
+
+  //- ajax
+  script.
+    $("#comment-form").submit( function(e) {
+      $.post('/comment', $(this).serialize()).then(() => {
+        $('.comments').append(`
+          <div class="row mb-3">
+            <a class="col flex-grow-0 flex-shrink-0 rounded" href="/user/${curUser.id}" title=${curUser.email}>
+              <img width="25" height="25" src="/upload/${curUser.avatar}">
+            </a>
+            <div class="col">
+              <span>${$('#detail').val()}</span>
+              <small>
+                <small>${new Date().toLocaleTimeString()}</small>
+              </small>
+            </div>
+          </div>
+        `)
+        $('#detail').val('')
+      })
+
+      return false
+    })

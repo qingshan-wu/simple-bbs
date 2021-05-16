@@ -1,0 +1,38 @@
+extends basic-layout.pug
+
+block content
+  form(action='/login' method='post')
+    input(type="hidden" name="next" value=referer || '/')
+    .mb-3
+      label.form-label(for='email') 邮箱
+      input#email.form-control(type='email' name='email' aria-describedby='emailHelp')
+      #emailHelp.form-text We&apos;ll never share your email with anyone else.
+    .mb-3
+      label.form-label(for='password') 密码
+      input#password.form-control(type='password' name='password')
+    .mb-3
+      label.form-label(for='captcha') 验证码
+      .mb-3.input-group
+        span.input-group-text
+          img(src="/captcha", alt="captcha")
+        input#captcha.form-control(type='text' aria-describedby='basic-addon3' name='captcha')
+
+    button.btn.btn-primary(type='submit') 登陆
+    |
+    |
+    a(href="/forgot").btn.btn-outline-danger(type='submit') 忘记密码
+
+
+
+  script.
+    $('form').submit(function(e) {
+      $.post('/login', $(this).serialize() ).then(() => {
+        history.back()
+      }, (res) => {
+        console.log(res)
+        $('img').attr('src', '/captcha?t=' + Date.now())
+        alert(res.responseJSON.msg)
+      })
+
+      return false
+    })

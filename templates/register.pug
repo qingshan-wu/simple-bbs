@@ -1,0 +1,36 @@
+//- h2 注册账号
+//- form(action="/register" method="post")
+//-   p  email:
+//-     input(type="text" name="email")
+//-   p password:
+//-     input(type="password" name="password")
+//-   p gender:
+//-     label 男
+//-       input(type="radio" name="gender" value="m")
+//-     label 女
+//-       input(type="radio" name="gender" value="f")
+//-   button 注册
+
+extends basic-layout.pug
+
+block content
+  form(action='/register' method='post' enctype="multipart/form-data")
+    .mb-3
+      label.form-label(for='email') 邮箱
+      input#email.form-control(type='email' name='email' aria-describedby='emailHelp')
+      #emailHelp.form-text We&apos;ll never share your email with anyone else.
+    .mb-3
+      label.form-label(for='password') 密码
+      input#password.form-control(type='password' name='password')
+    .form-check
+      input#male.form-check-input(type='radio' name='gender' value="m")
+      label.form-check-label(for='male')
+        | 男
+    .form-check
+      input#female.form-check-input(type='radio' name='gender' value="f")
+      label.form-check-label(for='female')
+        | 女
+    .mb-3
+      label.form-label(for='avatar') 头像
+      input#avatar.form-control(type='file' name='avatar')
+    button.btn.btn-primary(type='submit') 注册

@@ -1,0 +1,10 @@
+extends basic-layout.pug
+
+block content
+  form(action='/forgot' method='post')
+    //- input(type="hidden" name="next" value=referer || '/')
+    h2 填写邮箱
+    .mb-3
+      label.form-label(for='email')
+      input#email.form-control(type='email' name='email' aria-describedby='emailHelp')
+    button.btn.btn-primary(type='submit') 点击发送验证连接

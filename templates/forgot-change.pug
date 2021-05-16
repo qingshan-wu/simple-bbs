@@ -1,0 +1,26 @@
+extends basic-layout.pug
+
+block content
+  //- 往当前地址post请求
+  form(action='' method='post')
+    //- input(type="hidden" name="next" value=referer || '/')
+    h2 修改#{email}账号的密码
+    .mb-3
+      label.form-label(for='password') 新密码
+      input#password.form-control(type='password' name='password')
+    .mb-3
+      label.form-label(for='password2') 再次输入新密码
+      input#password2.form-control(type='password' name='password2')
+    button.btn.btn-primary(type='submit') 点击修改
+
+  script.
+    $('form').submit(function(e) {
+      let { password, password2 } = this
+      if (password.value !== password2.value) {
+        alert('两次输入的密码不一致请重新输入')
+        retun
+      } else {
+        $.post('', $(this).serialize())
+      }
+      return false
+    })

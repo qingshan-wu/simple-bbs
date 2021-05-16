@@ -1,0 +1,49 @@
+extends basic-layout.pug
+
+
+
+block content
+  div.clearfix
+  each post in posts
+    div.row.mb-3.post-item
+      a(href="/user/" + post.userId title=post.email).col.flex-grow-0.flex-shrink-0.rounded
+        img(width="50" height="50" src="/upload/" + post.avatar)
+      div.col
+        a(href="/post/" + post.id)= post.title
+        small
+          small 被浏览#{post.clicks}次
+        p.text-end.flow-right
+          //-登陆且该帖子是的userid自己发
+          if user && user.id == post.userId
+            button(data-post-id=post.id).delete-post.btn.btn-outline-dark.delete-post 删除
+          span.fw-light @ #{new Date(post.createAt).toLocaleString()}
+
+
+  else
+    p 暂时还没有帖子
+
+  nav
+    ul.pagination.pagination-sm.justify-content-center
+      li.page-item(class={disabled: pages.curPage == 1})
+        a.page-link(href=`/?page=${+pages.curPage - 1}`) &laquo;
+      each page in Array(pages.pageCount).fill(0).map((_, idx) => idx + 1)
+        li.page-item(class={active: pages.curPage == page})
+          a.page-link(href=`/?page=${page}`)=page
+      li.page-item(class={disabled: pages.curPage == pages.pageCount})
+        a.page-link(href=`/?page=${+pages.curPage + 1}`) &raquo;
+
+  script.
+    $('body').on('click', '.delete-post', e => {
+      var doublecheck = confirm('确定要删除吗')
+      if (doublecheck) {
+        $.ajax('/post/' + $(e.target).data('post-id'), {
+          method: 'delete'
+        }).then(() => {
+          $(e.target).closest('.post-item').remove()
+          //- ajax 删除dom节点
+        }, (res) => {
+          console.log(res)
+          alert(res.responseText)
+        })
+      }
+    })
